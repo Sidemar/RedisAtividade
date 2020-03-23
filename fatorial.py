@@ -7,8 +7,17 @@ connection.hmset('factorial', {'0':1})
 def factorial(n: int):
     
     if (n == 0):
+        print('O fatorial já estava em cache')
         return int(connection.hget('factorial', n))
 
+    # Caso o dado já esteja em cache
+    value = connection.hget('factorial', n)
+    if not(value is None):
+        print('O fatorial já estava em cache')
+        return int(value)
+
+    # O dado não está em cache
+    print('O fatorial de {} não estava em cache'.format(n))
     value = connection.hget('factorial', n-1)
     if (value is None):
         fac = factorial(n-1)
